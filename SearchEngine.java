@@ -24,7 +24,6 @@ class Handler implements URLHandler {
                 }
             }
             if (url.getPath().contains("/search")) {
-                System.out.println(wordList);
                 String[] parameters = url.getQuery().split("=");
                 ArrayList<String> matchStor = new ArrayList<String>();
 
