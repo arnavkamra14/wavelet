@@ -7,7 +7,6 @@ class Handler implements URLHandler {
     // The one bit of state on the server: a number that will be manipulated by
     // various requests.
     ArrayList<String> wordList = new ArrayList<String>();
-    ArrayList<String> matchStor = new ArrayList<String>();
     String matches = "";
 
     public String handleRequest(URI url) {
@@ -15,7 +14,6 @@ class Handler implements URLHandler {
             return String.format(
                     "Welcome to the Search Engine!\nUse the 'add' path to add an string to the list and 'search' to query the list of strings");
         } else {
-            System.out.println("Path: " + url.getPath());
             if (url.getPath().contains("/add")) {
 
                 String[] parameters = url.getQuery().split("=");
@@ -26,8 +24,9 @@ class Handler implements URLHandler {
                 }
             }
             if (url.getPath().contains("/search")) {
-
+                System.out.println(wordList);
                 String[] parameters = url.getQuery().split("=");
+                ArrayList<String> matchStor = new ArrayList<String>();
 
                 if (parameters[0].equals("s")) {
                     for (int i = 0; i < wordList.size(); i++) {
@@ -37,16 +36,9 @@ class Handler implements URLHandler {
                     }
                 }
 
-                for (int i = 0; i < matchStor.size(); i++) {
-                    matches = "";
-                    matches += matchStor.get(i);
-                    if (i != 0) {
-                        matches += ", ";
-                    }
-                }
-
                 if (matchStor.size() > 0) {
-                    return String.format("The search term matches the following strings in the list: %s", matches);
+                    return String.format("The search term matches the following strings in the list: %s",
+                            matchStor.toString());
                 } else {
                     return String.format("No strings matched '%s'", parameters[1]);
                 }
